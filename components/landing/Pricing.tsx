@@ -23,7 +23,7 @@ const plans = [
   },
   {
     name: 'Builder',
-    price: '₹999',
+    price: '₹1,999',
     period: '/month',
     description: 'For founders moving fast.',
     highlight: true,
@@ -41,7 +41,7 @@ const plans = [
   },
   {
     name: 'Studio',
-    price: '₹2,999',
+    price: '₹3,999',
     period: '/month',
     description: 'For teams shipping continuously.',
     highlight: false,

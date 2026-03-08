@@ -85,8 +85,8 @@ export async function POST(req: NextRequest) {
 
   if (runsUsed >= limit) {
     const msg = plan === 'hobby'
-      ? `You have used all ${limit} free runs. Upgrade to Builder (₹999/mo) to continue.`
-      : `You have used all ${limit} runs this month. Upgrade to Studio (₹2,999/mo) for unlimited.`
+      ? `You have used all ${limit} free runs. Upgrade to Builder (₹1,999/mo) to continue.`
+      : `You have used all ${limit} runs this month. Upgrade to Studio (₹3,999/mo) for unlimited.`
     return NextResponse.json({ error: msg, upgradeRequired: true }, { status: 403 })
   }
   // ─────────────────────────────────────────────────────────────────────────

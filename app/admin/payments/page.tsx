@@ -22,8 +22,8 @@ interface PaymentRequest {
 }
 
 const PLAN_LABELS: Record<string, string> = {
-  builder: 'Builder — ₹999/mo',
-  studio:  'Studio — ₹2,999/mo',
+  builder: 'Builder — ₹1,999/mo',
+  studio:  'Studio — ₹3,999/mo',
 }
 
 export default function AdminPaymentsPage() {
