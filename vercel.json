@@ -1,7 +1,6 @@
 {
   "installCommand": "pnpm install",
   "buildCommand": "pnpm run build",
-  "nodeVersion": "22.x",
   "crons": [
     {
       "path": "/api/cron/cleanup",
