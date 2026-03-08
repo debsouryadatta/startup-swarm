@@ -162,10 +162,12 @@ export async function POST(req: NextRequest) {
     const uploadable      = files.filter(f => !f.relativePath.includes('.DS_Store'))
 
     await sandbox.fs.uploadFiles(
-      uploadable.map(f => ({
-        source:      f.localPath,
-        destination: `${homeDir}/${f.relativePath}`,
-      }))
+      await Promise.all(
+        uploadable.map(async f => ({
+          source:      await nodeFs.readFile(f.localPath),  // Buffer, not path string
+          destination: `${homeDir}/${f.relativePath}`,      // SDK wraps Buffer in Blob on serverless
+        }))
+      )
     )
 
     // Install deps + start the orchestrator in one background shell command.
