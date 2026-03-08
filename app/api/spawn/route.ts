@@ -132,6 +132,9 @@ export async function POST(req: NextRequest) {
         LLM_PROVIDER:     llmProvider,
         LLM_MODEL:        llmModel,
         LLM_API_KEY:      apiKey,       // never stored in DB
+        // Set the provider-specific key name so pi-ai's getEnvApiKey() picks it up
+        // e.g. anthropic → ANTHROPIC_API_KEY, openai → OPENAI_API_KEY
+        [`${llmProvider.toUpperCase()}_API_KEY`]: apiKey,
         WEBHOOK_URL:      webhookUrl,
         WEBHOOK_SECRET:   webhookSecret,
       },

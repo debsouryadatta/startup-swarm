@@ -4,7 +4,7 @@
   "type": "module",
   "dependencies": {
     "tsx": "latest",
-    "@mariozechner/pi-ai": "latest",
-    "@mariozechner/pi-agent-core": "latest"
+    "@mariozechner/pi-ai": "0.57.1",
+    "@mariozechner/pi-agent-core": "0.57.1"
   }
 }
