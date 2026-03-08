@@ -16,9 +16,21 @@ This is fully stateless on the Next.js side. Every function invocation reads fro
 
 ## Step 1 — Project Structure
 
+Everything lives directly in the repo root (no nested `startup-swarm/` subfolder).
+
 ```
-startup-swarm/
+BuildSprint/                               ← repo root
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+├── tailwind.config.ts
+├── postcss.config.mjs
+├── drizzle.config.ts
+├── .env.local.example
+│
 ├── app/
+│   ├── layout.tsx
+│   ├── globals.css
 │   ├── page.tsx                           ← landing: idea input, provider/model selector, agent toggles
 │   ├── dashboard/[sessionId]/
 │   │   └── page.tsx                       ← live DAG agent grid
@@ -26,31 +38,43 @@ startup-swarm/
 │       ├── spawn/route.ts                 ← write session to DB, create Daytona sandbox, start orchestrator
 │       ├── webhook/[sessionId]/route.ts   ← receives events from orchestrator, writes to DB
 │       ├── stream/[sessionId]/route.ts    ← SSE endpoint, polls DB for new events
-│       └── iterate/route.ts               ← re-run single agent with feedback
+│       ├── iterate/route.ts               ← re-run single agent with feedback
+│       └── cron/cleanup/route.ts          ← Vercel cron: delete expired sandboxes
+│
 ├── db/
 │   ├── schema.ts                          ← Drizzle table definitions
 │   ├── index.ts                           ← Drizzle client singleton (Neon serverless)
 │   └── migrations/                        ← auto-generated SQL migrations
+│
 ├── lib/
 │   ├── daytona.ts                         ← Daytona SDK singleton
-│   └── llmProviders.ts                    ← provider/model config + validation
+│   └── llmProviders.ts                    ← provider/model config + AGENT_PHASES map
+│
 ├── components/
 │   ├── AgentCard.tsx                      ← single agent card with status, stream, improve
-│   ├── AgentGrid.tsx                      ← DAG layout grid
+│   ├── AgentGrid.tsx                      ← DAG layout grid + agent config definitions
 │   ├── ProviderSelector.tsx               ← OpenAI / Anthropic / OpenRouter picker
 │   └── TokenStream.tsx                    ← live scrolling token output
-└── orchestrator/
-    ├── index.ts                           ← DAG process manager (runs INSIDE Daytona sandbox)
-    ├── agents/
-    │   ├── productManager.ts              ← standalone script — run as its own process
-    │   ├── backendEngineer.ts             ← standalone script
-    │   ├── frontendEngineer.ts            ← standalone script
-    │   ├── marketingGrowth.ts             ← standalone script
-    │   ├── contentPitch.ts                ← standalone script
-    │   └── ceoOrchestrator.ts             ← standalone script (used in Phase 0 and Phase 4)
-    └── shared/
-        ├── state.ts                       ← read/write JSON hand-off files (sandbox filesystem)
-        └── webhook.ts                     ← POST events to Next.js webhook endpoint
+│
+├── orchestrator/                          ← uploaded to /workspace/ inside Daytona sandbox
+│   ├── package.json                       ← sandbox deps: tsx, @mariozechner/pi-ai, pi-agent-core
+│   ├── index.ts                           ← DAG process manager (runs INSIDE Daytona sandbox)
+│   ├── agents/
+│   │   ├── ceoOrchestrator.ts             ← standalone script (Phase 0 init + Phase 4 finalize)
+│   │   ├── productManager.ts              ← standalone script — run as its own process
+│   │   ├── backendEngineer.ts             ← standalone script
+│   │   ├── marketingGrowth.ts             ← standalone script
+│   │   ├── contentPitch.ts                ← standalone script
+│   │   └── frontendEngineer.ts            ← standalone script
+│   └── shared/
+│       ├── state.ts                       ← read/write JSON hand-off files (sandbox filesystem)
+│       └── webhook.ts                     ← POST events to Next.js webhook endpoint
+│
+└── plan/                                  ← planning docs (not deployed)
+    ├── startup_swarm_plan.md
+    ├── startup_swarm_implementation.md
+    ├── startup_swarm_agent_flow.md
+    └── startup_swarm_pi_integration.md
 ```
 
 ---

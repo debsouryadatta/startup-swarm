@@ -1,0 +1,10 @@
+{
+  "name": "startup-swarm-orchestrator",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "tsx": "latest",
+    "@mariozechner/pi-ai": "latest",
+    "@mariozechner/pi-agent-core": "latest"
+  }
+}
